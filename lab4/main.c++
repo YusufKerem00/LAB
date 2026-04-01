@@ -24,7 +24,8 @@ courier courierqueue[maxcouriersize];
 int front = -1;
 int rear = -1;
 
-void pushpackage(string id, string city, int d[]) {
+void pushpackage(string id, string city, int d[]) 
+{
     package* newnode = new package();
     newnode->packageid = id;
     newnode->destinationcity = city;
@@ -32,10 +33,10 @@ void pushpackage(string id, string city, int d[]) {
     newnode->dimensions[1] = d[1];
     newnode->dimensions[2] = d[2];
     newnode->next = top;
-    top = newnode;
-}
+    top = newnode;}
 
-void poppackage() {
+void poppackage() 
+{
     if (top != nullptr) {
         package* temp = top;
         top = top->next;
@@ -46,44 +47,48 @@ void poppackage() {
 void enqueuecourier(string name, string vehicle) {
     if ((front == (rear + 1) % maxcouriersize))  
     {
-        cout << "kuyruk dolu!" << endl;
+        cout << "Kuyruk dolu!" << endl;
         return;
     }
     if (front == -1) front = 0;
-    rear = (rear + 1) % maxcouriersize;
+    rear = (rear + 1) % maxcouriersize; //dizinin sonuna denk geldiğimzde yani rear 4 olduğunda rearın yeni değeri 0 olur ve yeni gelecek kurye ilk başa yazılır.(Courier Queue)
     courierqueue[rear].couriername = name;
-    courierqueue[rear].vehicletype = vehicle;
-}
+    courierqueue[rear].vehicletype = vehicle;}
 
 void dequeuecourier() {
     if (front == -1) return;
     if (front == rear) {
-        front = -1;
-        rear = -1;
-    } else {
+    front = -1;
+    rear = -1;
+     } else {
         front = (front + 1) % maxcouriersize;
-    }
+}
 }
 
-void dispatch() {
+void sendpackage() {
     if (top == nullptr || front == -1) {
-        cout << "hata: paket veya kurye yok!" << endl;
-        return;
+        cout << "hata: Paket veya kurye yok!" << endl;
+    return;
     }
     cout << "Gonderiliyor: " << courierqueue[front].couriername << " -> " << top->packageid << endl;
     poppackage();
     dequeuecourier();
 }
 
-void display() {
+void show() {
     cout << "\n--- Paketler ---" << endl;
+
     package* temp = top;
-    while (temp != nullptr) {
+
+    while (temp != nullptr) 
+    {
         cout << temp->packageid << " ";
+
         temp = temp->next;
     }
     
-    cout << "\n--- kuryeler ---" << endl;
+    cout << "\n--- Kuryeler ---" << endl;
+
     if (front != -1) {
         int i = front;
         while (true) {
@@ -104,9 +109,9 @@ int main() {
     enqueuecourier("Ali", "Motor");
     enqueuecourier("Veli", "Araba");
     
-    display();
-    dispatch();
-    display();
+    show();
+    sendpackage();
+    show();
     
     return 0;
 }
