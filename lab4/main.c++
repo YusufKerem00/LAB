@@ -19,7 +19,6 @@ struct courier {
 
 package* top = nullptr; 
 
-
 courier courierqueue[maxcouriersize];
 int front = -1;
 int rear = -1;
@@ -33,7 +32,8 @@ void pushpackage(string id, string city, int d[])
     newnode->dimensions[1] = d[1];
     newnode->dimensions[2] = d[2];
     newnode->next = top;
-    top = newnode;}
+    top = newnode;
+}
 
 void poppackage() 
 {
@@ -51,45 +51,51 @@ void enqueuecourier(string name, string vehicle) {
         return;
     }
     if (front == -1) front = 0;
-    rear = (rear + 1) % maxcouriersize; //dizinin sonuna denk geldiğimzde yani rear 4 olduğunda rearın yeni değeri 0 olur ve yeni gelecek kurye ilk başa yazılır.(Courier Queue)
+    rear = (rear + 1) % maxcouriersize; 
     courierqueue[rear].couriername = name;
-    courierqueue[rear].vehicletype = vehicle;}
+    courierqueue[rear].vehicletype = vehicle;
+}
 
 void dequeuecourier() {
     if (front == -1) return;
     if (front == rear) {
-    front = -1;
-    rear = -1;
-     } else {
+        front = -1;
+        rear = -1;
+    } else {
         front = (front + 1) % maxcouriersize;
-}
+    }
 }
 
 void sendpackage() {
     if (top == nullptr || front == -1) {
         cout << "hata: Paket veya kurye yok!" << endl;
-    return;
+        return;
     }
-    cout << "Gonderiliyor: " << courierqueue[front].couriername << " -> " << top->packageid << endl;
+    
+    cout << ">>> Gonderiliyor: " << courierqueue[front].couriername 
+         << " adli kurye [" << top->packageid << "] nolu paketi " 
+         << top->destinationcity << " sehrine goturmek uzere aldi." << endl;
+    
     poppackage();
     dequeuecourier();
 }
 
 void show() {
     cout << "\n--- Paketler ---" << endl;
-
     package* temp = top;
-
+    if (temp == nullptr) cout << "Paket yok.";
     while (temp != nullptr) 
     {
-        cout << temp->packageid << " ";
-
+       
+     cout << "[" << temp->packageid << " -> " << temp->destinationcity << "] ";
         temp = temp->next;
     }
     
     cout << "\n--- Kuryeler ---" << endl;
-
-    if (front != -1) {
+    if (front == -1) {
+        cout << "Kurye yok.";
+    } 
+    else {
         int i = front;
         while (true) {
             cout << courierqueue[i].couriername << " ";
@@ -103,11 +109,11 @@ void show() {
 int main() {
     int olculer[] = {10, 10, 10};
     
-    pushpackage("P1", "Ankara", olculer);
-    pushpackage("P2", "İzmir", olculer);
+    pushpackage("P1", "Duzce", olculer);
+    pushpackage("P2", "Kocaeli", olculer);
     
-    enqueuecourier("Ali", "Motor");
-    enqueuecourier("Veli", "Araba");
+    enqueuecourier("Kerem", "Motor");
+    enqueuecourier("Emirhan", "Tuk-Tuk");
     
     show();
     sendpackage();
