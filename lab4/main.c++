@@ -81,7 +81,7 @@ void sendpackage() {
 }
 
 void show() {
-    cout << "\n--- Paketler ---" << endl;
+    cout << "\n--- Paketler  ---" << endl;
     package* temp = top;
     if (temp == nullptr) cout << "Paket yok.";
     while (temp != nullptr) 
@@ -91,7 +91,7 @@ void show() {
         temp = temp->next;
     }
     
-    cout << "\n--- Kuryeler ---" << endl;
+    cout << "\n--- Kuryeler (Queue) ---" << endl;
     if (front == -1) {
         cout << "Kurye yok.";
     } 
